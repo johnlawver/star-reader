@@ -1,0 +1,15 @@
+{
+  "appName": "star-reader",
+  "domain": "star-reader.johnlawver.com",
+  "coolifyProjectId": "vqehjpg67d0stxgwaarsnb0i",
+  "coolifyEnvironmentId": "cqtxm0wsjt4q5nn8sds4mja7",
+  "coolifyAppId": "",
+  "secrets": "doppler",
+  "dopplerProject": "star-reader",
+  "codeAtRoot": true,
+  "stack": {
+    "frontend": "next.js (app router)",
+    "backend": "next.js api routes + nextauth v5",
+    "database": "postgresql + drizzle orm"
+  }
+}
