@@ -26,5 +26,5 @@ Deployed via Coolify on RackNerd VPS. Auto-deploys on push to `main`.
 
 - Project ID: `vqehjpg67d0stxgwaarsnb0i`
 - Environment ID: `cqtxm0wsjt4q5nn8sds4mja7`
-- App ID: *(fill after app creation)*
+- App ID: `zt40ninnaz037fgq67s2vtfx`
 - Dashboard: https://dashboard.johnlawver.com
