@@ -9,18 +9,32 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
+    "test:unit": "vitest run --passWithNoTests \"lib/**/*.unit.test.ts\"",
+    "test:integration": "vitest run --passWithNoTests \"lib/**/*.integration.test.ts\"",
     "prepare": "husky"
   },
   "dependencies": {
+    "@auth/drizzle-adapter": "^1.11.1",
+    "bcryptjs": "^3.0.3",
+    "drizzle-orm": "^0.45.2",
     "next": "^16.2.1",
+    "next-auth": "^5.0.0-beta.30",
+    "pg": "^8.20.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "resend": "^6.9.4"
   },
   "devDependencies": {
+    "@paralleldrive/cuid2": "^3.3.0",
     "@tailwindcss/postcss": "^4",
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
+    "@types/pg": "^8.20.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitest/coverage-v8": "^3.2.4",
+    "dotenv": "^17.3.1",
+    "drizzle-kit": "^0.31.10",
     "eslint": "^9",
     "eslint-config-next": "^16.2.1",
     "husky": "^9",
