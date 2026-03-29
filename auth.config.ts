@@ -11,7 +11,7 @@ export const authConfig: NextAuthConfig = {
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
-      const PUBLIC_ROUTES = ["/login", "/signup", "/api/auth"];
+      const PUBLIC_ROUTES = ["/login", "/signup", "/api/auth", "/api/health"];
       const isPublic = PUBLIC_ROUTES.some((route) =>
         nextUrl.pathname.startsWith(route)
       );
