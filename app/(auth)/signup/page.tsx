@@ -5,7 +5,13 @@ import { redirect } from "next/navigation";
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
 
-export default function SignupPage() {
+export default async function SignupPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
+  const { error } = await searchParams;
+
   async function handleSignup(formData: FormData) {
     "use server";
     const email = formData.get("email") as string;
@@ -30,6 +36,14 @@ export default function SignupPage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-8">
       <h1 className="mb-8 text-3xl font-bold">Create your account</h1>
+      {error === "exists" && (
+        <p className="mb-4 text-sm text-red-600">
+          An account with that email already exists.{" "}
+          <a href="/login" className="underline">
+            Log in instead?
+          </a>
+        </p>
+      )}
       <form
         action={handleSignup}
         className="flex w-full max-w-sm flex-col gap-4"
@@ -38,6 +52,7 @@ export default function SignupPage() {
           type="email"
           name="email"
           placeholder="Email"
+          autoComplete="email"
           required
           className="rounded-lg border border-gray-300 p-3"
         />
@@ -45,6 +60,7 @@ export default function SignupPage() {
           type="password"
           name="password"
           placeholder="Password (min 8 characters)"
+          autoComplete="new-password"
           minLength={8}
           required
           className="rounded-lg border border-gray-300 p-3"

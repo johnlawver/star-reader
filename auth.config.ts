@@ -4,6 +4,7 @@ import type { NextAuthConfig } from "next-auth";
 // Used by middleware for session checking only.
 // Full auth config with Credentials provider is in lib/auth.ts.
 export const authConfig: NextAuthConfig = {
+  trustHost: true,
   pages: {
     signIn: "/login",
   },
