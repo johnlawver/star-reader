@@ -36,7 +36,7 @@ Normal deploys (no secret changes) happen automatically on push to `main`.
 ## Build
 
 - Build command: `npm run build`
-- Start command: `npm start` _(runs `drizzle-kit migrate` then `node .next/standalone/server.js` — migrations apply automatically on every deploy)_
+- Start command: `npm start` _(runs `node .next/standalone/server.js` directly — migrations run during build via `postbuild` script)_
 - Port: `3000`
 - Health check path: `/api/health` _(dedicated endpoint, returns 200 without auth — never redirects)_
 - Health check start period: 60s _(migrations run before server starts — default 5s is too short)_
