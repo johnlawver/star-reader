@@ -16,6 +16,11 @@ export default async function SignupPage({
     "use server";
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
+    const confirmPassword = formData.get("confirmPassword") as string;
+
+    if (password !== confirmPassword) {
+      redirect("/signup?error=mismatch");
+    }
 
     const [existing] = await db
       .select({ id: users.id })
@@ -36,6 +41,9 @@ export default async function SignupPage({
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-8">
       <h1 className="mb-8 text-3xl font-bold">Create your account</h1>
+      {error === "mismatch" && (
+        <p className="mb-4 text-sm text-red-600">Passwords do not match.</p>
+      )}
       {error === "exists" && (
         <p className="mb-4 text-sm text-red-600">
           An account with that email already exists.{" "}
@@ -60,6 +68,15 @@ export default async function SignupPage({
           type="password"
           name="password"
           placeholder="Password (min 8 characters)"
+          autoComplete="new-password"
+          minLength={8}
+          required
+          className="rounded-lg border border-gray-300 p-3"
+        />
+        <input
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm password"
           autoComplete="new-password"
           minLength={8}
           required
