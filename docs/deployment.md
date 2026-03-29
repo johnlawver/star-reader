@@ -39,6 +39,8 @@ Normal deploys (no secret changes) happen automatically on push to `main`.
 - Start command: `npm start` _(runs `drizzle-kit migrate` then `node .next/standalone/server.js` — migrations apply automatically on every deploy)_
 - Port: `3000`
 - Health check path: `/api/health` _(dedicated endpoint, returns 200 without auth — never redirects)_
+- Health check start period: 60s _(migrations run before server starts — default 5s is too short)_
+- Health check interval: 10s, timeout: 10s, retries: 5
 
 ## Coolify
 
