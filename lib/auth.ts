@@ -5,6 +5,7 @@ import { authorizeCredentials } from "./auth-credentials";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
+  trustHost: true,
   providers: [
     Credentials({
       credentials: {
