@@ -53,12 +53,21 @@ match = next((e for e in envs if e['key'] == '$key' and not e.get('is_preview', 
 print(match['uuid'] if match else '')
 " 2>/dev/null)
 
+  # NODE_ENV must be runtime-only — nixpacks skips devDependencies when it's a buildtime var
+  local is_buildtime="true"
+  if [[ "$key" == "NODE_ENV" ]]; then
+    is_buildtime="false"
+  fi
+
+  local value_json
+  value_json=$(python3 -c "import json,sys; print(json.dumps(sys.argv[1]))" "$value")
+
   if [[ -n "$existing_uuid" ]]; then
-    # Update existing
+    # Update existing — PATCH matches by key, NOT uuid; never include uuid in body (silently ignored, causes duplicates)
     curl -sf -X PATCH "$COOLIFY_BASE/applications/$COOLIFY_APP_UUID/envs" \
       -H "Authorization: Bearer $COOLIFY_TOKEN" \
       -H "Content-Type: application/json" \
-      -d "{\"uuid\": \"$existing_uuid\", \"key\": \"$key\", \"value\": $(python3 -c "import json,sys; print(json.dumps(sys.argv[1]))" "$value")}" \
+      -d "{\"key\": \"$key\", \"value\": $value_json, \"is_buildtime\": $is_buildtime, \"is_runtime\": true}" \
       > /dev/null
     echo "  updated: $key"
   else
@@ -66,7 +75,7 @@ print(match['uuid'] if match else '')
     curl -sf -X POST "$COOLIFY_BASE/applications/$COOLIFY_APP_UUID/envs" \
       -H "Authorization: Bearer $COOLIFY_TOKEN" \
       -H "Content-Type: application/json" \
-      -d "{\"key\": \"$key\", \"value\": $(python3 -c "import json,sys; print(json.dumps(sys.argv[1]))" "$value"), \"is_preview\": false}" \
+      -d "{\"key\": \"$key\", \"value\": $value_json, \"is_buildtime\": $is_buildtime, \"is_runtime\": true, \"is_preview\": false}" \
       > /dev/null
     echo "  created: $key"
   fi
