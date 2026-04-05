@@ -11,12 +11,23 @@ export const authConfig: NextAuthConfig = {
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
-      const PUBLIC_ROUTES = ["/login", "/signup", "/api/auth", "/api/health"];
+      const PUBLIC_ROUTES = [
+        "/login",
+        "/signup",
+        "/reset-password",
+        "/api/auth",
+        "/api/health",
+      ];
       const isPublic = PUBLIC_ROUTES.some((route) =>
         nextUrl.pathname.startsWith(route)
       );
       if (isPublic) return true;
-      if (!isLoggedIn) return false;
+      if (!isLoggedIn) {
+        const loginUrl = new URL("/login", nextUrl);
+        loginUrl.searchParams.set("error", "session_expired");
+        loginUrl.searchParams.set("callbackUrl", nextUrl.pathname);
+        return Response.redirect(loginUrl);
+      }
       return true;
     },
   },
